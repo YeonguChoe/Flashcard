@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Node.js 웹 서버</title>
+</head>
+
+<body>
+    <h1>홈페이지</h1>
+
+    <form id="form1">
+        <input type="text" id="username" />
+        <button type="submit">등록</button>
+    </form>
+
+    <form id="edit">
+        <button type="button">갱신</button>
+    </form>
+    <div id="userList" />
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+        const listUser = async () => {
+            let listInServer = await axios.get("/userList")
+            let listPart = document.getElementById("userList")
+
+            let selected = listPart.querySelector("ul")
+
+            if (selected) {
+                selected.remove()
+            }
+
+            let newUnorderedList = document.createElement("ul")
+            listInServer.data.forEach(element => {
+                let newItem = document.createElement("li")
+
+                let newTextNode = document.createTextNode(element)
+                newItem.append(newTextNode)
+
+                let deleteButton = document.createElement("button")
+                deleteButton.innerText = "삭제"
+                newItem.append(deleteButton)
+
+                newUnorderedList.append(newItem)
+            })
+            listPart.append(newUnorderedList)
+        }
+
+        const addUser = async () => {
+            let newInput = document.getElementById("username")
+            x = newInput.value
+            try {
+                await axios.post("/newUser", { x })
+            }
+            catch (e) {
+            }
+        }
+
+        const deleteUser = async (item) => {
+            await axios.delete("/user/" + item)
+        }
+
+        window.onload = listUser
+
+        document.getElementById("form1").addEventListener("submit", (event) => {
+            event.preventDefault(); // 기본 제출 동작을 막음
+            addUser()
+            listUser()
+        });
+
+        document.getElementById("userList").addEventListener("click", (e) => {
+            let clickedItem = e.target.closest("li")
+            let text = clickedItem.innerText
+            const regex = /(.*)삭제/;
+            const match = text.match(regex);
+
+            let target = ""
+            if (match) {
+                const wordBeforeDelete = match[1].trim();
+                target = wordBeforeDelete; // "Java" 출력
+            }
+
+            deleteUser(target)
+
+            clickedItem.remove()
+        })
+
+        document.getElementById("edit").addEventListener("click", () => {
+            let newInput = document.getElementById("username")
+            newValue = newInput.value
+
+            axios.put("/user/", { value: newValue })
+            listUser()
+        })
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
