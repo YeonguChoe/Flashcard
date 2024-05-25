@@ -9,6 +9,7 @@ import LoadMoreData from './components/load-more-button';
 import TreeView from './components/tree-list';
 import menus from './components/tree-list/data';
 import TicTacToe from './components/tic-tac-toe';
+import SideBar from './components/sidebar';
 
 function App() {
   return (
@@ -31,8 +32,12 @@ function App() {
       {/* 트리 뷰
       <TreeView menus={menus} /> */}
 
-      {/* 틱택토 */}
-      <TicTacToe />
+      {/* 틱택토
+      <TicTacToe /> */}
+
+      {/* 사이드바 */}
+      <SideBar />
+
 
     </div>
   );
