@@ -1,0 +1,18 @@
+{
+  "questions": [
+    {
+      "code": 1000,
+      "question": "3+2=?",
+      "answers": [
+        "5"
+      ]
+    },
+    {
+      "code": 2000,
+      "question": "5+2=?",
+      "answers": [
+        "7"
+      ]
+    }
+  ]
+}
